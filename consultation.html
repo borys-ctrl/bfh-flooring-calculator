@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flooring Store Consultation</title>
+</head>
+<body style="margin:0;padding:0;">
+<style>
+.wic{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;max-width:680px;margin:0 auto;color:#1a1a1a}
+.wic *{box-sizing:border-box}
+.wic-head{text-align:center;margin:0 0 18px}
+.wic-head h1{font-size:2.1rem;font-weight:800;margin:0 0 6px}
+.wic-head p{color:#555;font-size:1.05rem;margin:0}
+.wic-prog{display:flex;gap:8px;justify-content:center;margin:18px 0 26px}
+.wic-prog span{width:42px;height:8px;border-radius:99px;background:#e5e5e5}
+.wic-prog span.on{background:#ea580c}
+.wic-card{background:#fff;border:1px solid #eee;border-radius:18px;padding:30px 26px;box-shadow:0 4px 18px rgba(0,0,0,.05)}
+.wic-q{font-size:1.55rem;font-weight:800;margin:0 0 6px;line-height:1.25}
+.wic-sub{color:#666;font-size:1.02rem;margin:0 0 22px}
+.wic-field{margin:0 0 18px}
+.wic-field label{display:block;font-weight:700;font-size:1.1rem;margin:0 0 8px}
+.wic-input{width:100%;font-size:1.25rem;padding:16px 18px;border:2px solid #d4d4d4;border-radius:12px;outline:none}
+.wic-input:focus{border-color:#ea580c}
+.wic-choices{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.wic-choice{display:block;text-align:center;font-size:1.15rem;font-weight:700;padding:20px 14px;border:2px solid #d4d4d4;border-radius:14px;cursor:pointer;background:#fff;color:#1a1a1a;-webkit-text-fill-color:#1a1a1a;transition:.15s}
+.wic-choice:hover{border-color:#ea580c;background:#fff7ed}
+.wic-choice.sel{border-color:#ea580c;background:#ea580c;color:#fff}
+.wic-btn{display:inline-block;width:100%;font-size:1.3rem;font-weight:800;padding:18px;border:none;border-radius:14px;background:#ea580c;color:#fff;cursor:pointer;margin-top:6px}
+.wic-btn:hover{background:#c2410c}
+.wic-btn.alt{background:#fff;color:#c2410c;border:2px solid #ea580c}
+.wic-back{background:none;border:none;color:#888;font-size:1rem;cursor:pointer;margin-top:14px;display:block;width:100%;padding:10px}
+.wic-skip{background:none;border:none;color:#c2410c;font-weight:700;font-size:1.05rem;cursor:pointer;margin-top:14px;display:block;width:100%;padding:12px;text-decoration:underline}
+.wic-row{display:flex;gap:14px}.wic-row .wic-field{flex:1}
+.wic-consent{font-size:.85rem;color:#999;text-align:center;margin:18px 0 0;line-height:1.4}
+.wic-done{text-align:center;padding:20px 10px}
+.wic-done .chk{font-size:3rem}
+.wic-done h2{font-size:1.8rem;font-weight:800;margin:8px 0}
+.wic-done p{color:#555;font-size:1.1rem}
+@media(max-width:600px){.wic-choices{grid-template-columns:1fr}.wic-q{font-size:1.35rem}.wic-card{padding:24px 18px}}
+</style>
+<div class="wic">
+<div class="wic-head">
+<h1>Welcome to Best Flooring Honolulu</h1>
+<p>Quick check-in — just a few taps. You can stop any time.</p>
+</div>
+<div class="wic-prog">
+<span id="p1" class="on"></span><span id="p2"></span><span id="p3"></span>
+</div>
+<div style="text-align:center;margin:-8px 0 18px"><button type="button" id="wicReset" style="background:none;border:none;color:#999;font-size:.9rem;cursor:pointer;text-decoration:underline">Start over for a new customer</button></div>
+<form id="wicForm" class="wic-form" data-source="walk-in-consultation" onsubmit="return bfhSubmit(this)">
+<input type="hidden" name="name" id="f_name">
+<input type="hidden" name="phone" id="f_phone">
+<input type="hidden" name="email" id="f_email">
+<input type="hidden" name="contactType" id="f_contactType">
+<input type="hidden" name="material" id="f_material">
+<input type="hidden" name="squareFeet" id="f_squareFeet">
+<input type="hidden" name="needsInstallQuote" id="f_install">
+<input type="hidden" name="address" id="f_address">
+<input type="hidden" name="preferredDate" id="f_date">
+<input type="hidden" name="preferredTime" id="f_time">
+<input type="hidden" name="message" id="f_message">
+<input type="hidden" name="stageReached" id="f_stage" value="1">
+<button type="submit" style="display:none" aria-hidden="true" tabindex="-1"></button><div class="bfhq-fmsg" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"></div>
+</form>
+<div class="wic-card" id="wicStage"></div>
+<p class="wic-consent">We use your info only to follow up about your visit. We never sell your data.</p>
+</div>
+<script>
+window.bfhSubmit=function(f){
+  var btn=f.querySelector('button[type=submit]');
+  var msg=f.querySelector('.bfhq-fmsg');
+  if(f.dataset.sent){return false;}
+  btn.disabled=true; btn.textContent='Sending…';
+  var data={
+    name:f.name.value, phone:f.phone.value, email:f.email.value,
+    address:f.address.value||'', preferredDate:f.preferredDate.value||'',
+    preferredTime:f.preferredTime.value||'', message:f.message.value||'',
+    source:f.dataset.source, ts:new Date().toISOString()
+  };
+  var body=Object.keys(data).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(data[k]);}).join('&');
+  fetch('https://flow.zoho.com/801316881/flow/webhook/incoming?zapikey=1001.90f736eced94cb633e88c239ba0eb44f.64c7fdb431535962a88221472b4492fb&isdebug=false',{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
+   .then(function(){
+     f.dataset.sent='1';
+     msg.style.display='block'; msg.style.color='#137333';
+     msg.innerHTML='✅ Thank you! Your request was sent. We\'ll be in touch soon.';
+     f.querySelectorAll('input,textarea').forEach(function(el){el.disabled=true;});
+     btn.style.display='none';
+   })
+   .catch(function(){
+     btn.disabled=false; btn.textContent='📨 Send my request';
+     msg.style.display='block'; msg.style.color='#b00020';
+     msg.innerHTML='Something went wrong. Please call or text (808) 210-4807.';
+   });
+  return false;
+};
+</script>
+<script>
+(function(){
+  var G=function(id){return document.getElementById(id);};
+  var stageEl=G('wicStage');
+  var data={};
+  // helper to re-send cumulative data to webhook via the existing bfhSubmit (reuses same Zoho flow)
+  function save(stageNum){
+    G('f_name').value=(data.first||'')+(data.last?(' '+data.last):'');
+    G('f_phone').value=data.phone||'';
+    G('f_email').value=data.email||'';
+    G('f_contactType').value=data.contactType||'';
+    G('f_material').value=data.material||'';
+    G('f_squareFeet').value=data.sqft||'';
+    G('f_install').value=data.install||'';
+    G('f_address').value=data.address||'';
+    G('f_date').value=data.date||'';
+    G('f_time').value=data.time||'';
+    G('f_stage').value=String(stageNum);
+    var parts=[];
+    if(data.contactType)parts.push('Customer type: '+data.contactType);
+    if(data.material)parts.push('Material: '+data.material);
+    if(data.sqft)parts.push('Approx sq ft: '+data.sqft);
+    if(data.install)parts.push('Wants install quote: '+data.install);
+    if(data.date||data.time)parts.push('Preferred: '+(data.date||'')+' '+(data.time||''));
+    G('f_message').value='Walk-in consultation. '+parts.join('. ');
+    var f=G('wicForm');
+    try{delete f.dataset.sent;}catch(e){}
+    f.removeAttribute('data-sent');
+    try{ bfhSubmit(f); }catch(e){}
+  }
+  function prog(n){G('p1').className=n>=1?'on':'';G('p2').className=n>=2?'on':'';G('p3').className=n>=3?'on':'';}
+
+  function stage1(){
+    prog(1);
+    stageEl.innerHTML=
+      '<p class="wic-q">Let\'s start with the basics</p>'+
+      '<p class="wic-sub">So we can follow up after your visit.</p>'+
+      '<div class="wic-field"><label>First name</label><input class="wic-input" id="i_first" autocomplete="given-name"></div>'+
+      '<div class="wic-field"><label>Phone number</label><input class="wic-input" id="i_phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(808) 555-0123"></div>'+
+      '<div class="wic-field"><label>Email <span style="color:#999;font-weight:400">(optional)</span></label><input class="wic-input" id="i_email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com"></div>'+
+      '<button class="wic-btn" id="b_next1">Continue &rarr;</button>';
+    G('i_first').value=data.first||'';G('i_phone').value=data.phone||'';G('i_email').value=data.email||'';
+    G('b_next1').onclick=function(){
+      data.first=G('i_first').value.trim();
+      data.phone=G('i_phone').value.trim();
+      data.email=G('i_email').value.trim();
+      if(!data.first&&!data.phone){alert('Please add your name or phone so we can reach you.');return;}
+      save(1);
+      stage2();
+    };
+  }
+
+  function stage2(){
+    prog(2);
+    stageEl.innerHTML=
+      '<p class="wic-q">Do you already know which material you want?</p>'+
+      '<p class="wic-sub">No worries either way — this just helps us help you faster.</p>'+
+      '<div class="wic-choices"><button type="button" class="wic-choice" id="c_yes">Yes, I know</button><button type="button" class="wic-choice" id="c_no">Not sure yet</button></div>'+
+      '<div id="matWrap" style="display:none;margin-top:22px">'+
+        '<div class="wic-field"><label>Which material?</label><input class="wic-input" id="i_mat" placeholder="e.g. vinyl plank, laminate, tile, hardwood, carpet"></div>'+
+        '<div class="wic-field"><label>About how many square feet?</label><input class="wic-input" id="i_sqft" inputmode="numeric" placeholder="e.g. 500"></div>'+
+      '</div>'+
+      '<div class="wic-field" style="margin-top:22px"><label>Are you shopping as a&hellip;</label>'+
+        '<div class="wic-choices"><button type="button" class="wic-choice" id="t_home">Homeowner</button><button type="button" class="wic-choice" id="t_contractor">Contractor / Pro</button></div></div>'+
+      '<button class="wic-btn" id="b_next2">Continue &rarr;</button>'+
+      '<button class="wic-skip" id="b_skip2">Skip this &mdash; I\'m just browsing</button>'+
+      '<button class="wic-back" id="b_back2">&larr; Back</button>';
+    function selMat(yes){
+      G('c_yes').className='wic-choice'+(yes?' sel':'');
+      G('c_no').className='wic-choice'+(!yes&&data._matAsked?' sel':'');
+      G('matWrap').style.display=yes?'block':'none';
+      data._matAsked=true;data._knowMat=yes;
+    }
+    G('c_yes').onclick=function(){selMat(true);};
+    G('c_no').onclick=function(){selMat(false);data.material='';data.sqft='';};
+    if(data._knowMat){selMat(true);G('i_mat').value=data.material||'';G('i_sqft').value=data.sqft||'';}
+    function selType(t){data.contactType=t;G('t_home').className='wic-choice'+(t==='Homeowner'?' sel':'');G('t_contractor').className='wic-choice'+(t==='Contractor / Pro'?' sel':'');}
+    if(data.contactType)selType(data.contactType);
+    G('t_home').onclick=function(){selType('Homeowner');};
+    G('t_contractor').onclick=function(){selType('Contractor / Pro');};
+    G('b_next2').onclick=function(){
+      if(data._knowMat){data.material=G('i_mat').value.trim();data.sqft=G('i_sqft').value.trim();}
+      save(2);stage3();
+    };
+    G('b_skip2').onclick=function(){save(2);stage3();};
+    G('b_back2').onclick=function(){stage1();};
+  }
+
+  function stage3(){
+    prog(3);
+    stageEl.innerHTML=
+      '<p class="wic-q">Would you like a free installation quote?</p>'+
+      '<p class="wic-sub">We install anywhere on Oahu. Free estimates.</p>'+
+      '<div class="wic-choices"><button type="button" class="wic-choice" id="q_yes">Yes, please</button><button type="button" class="wic-choice" id="q_no">No, thanks</button></div>'+
+      '<div id="instWrap" style="display:none;margin-top:22px">'+
+        '<div class="wic-field"><label>Project address</label><input class="wic-input" id="i_addr" autocomplete="street-address" placeholder="123 Aloha St, Honolulu, HI"></div>'+
+        '<div class="wic-row"><div class="wic-field"><label>Preferred date</label><input class="wic-input" id="i_date" type="date"></div>'+
+        '<div class="wic-field"><label>Time</label><input class="wic-input" id="i_time" type="time"></div></div>'+
+      '</div>'+
+      '<button class="wic-btn" id="b_finish">Finish &amp; check in</button>'+
+      '<button class="wic-back" id="b_back3">&larr; Back</button>';
+    function selInst(yes){
+      data.install=yes?'Yes':'No';
+      G('q_yes').className='wic-choice'+(yes?' sel':'');
+      G('q_no').className='wic-choice'+(!yes?' sel':'');
+      G('instWrap').style.display=yes?'block':'none';
+    }
+    G('q_yes').onclick=function(){selInst(true);};
+    G('q_no').onclick=function(){selInst(false);data.address='';data.date='';data.time='';};
+    if(data.install==='Yes'){selInst(true);G('i_addr').value=data.address||'';G('i_date').value=data.date||'';G('i_time').value=data.time||'';}
+    else if(data.install==='No'){selInst(false);}
+    G('b_finish').onclick=function(){
+      if(data.install==='Yes'){data.address=(G('i_addr')||{}).value||'';data.date=(G('i_date')||{}).value||'';data.time=(G('i_time')||{}).value||'';}
+      save(3);done();
+    };
+    G('b_back3').onclick=function(){stage2();};
+  }
+
+  function done(){
+    prog(3);
+    document.querySelector('.wic-prog').style.display='none';
+    stageEl.innerHTML='<div class="wic-done"><div class="chk">\u2705</div><h2>You\'re all checked in!</h2><p>Thanks'+(data.first?(', '+data.first):'')+'. Someone from our team will be right with you. Aloha!</p><button class="wic-btn alt" id="b_restart" style="margin-top:18px">Start over for next customer</button></div>';
+    G('b_restart').onclick=function(){data={};G('wicForm').reset();document.querySelector('.wic-prog').style.display='';stage1();};
+  }
+
+  var rb=document.getElementById("wicReset");if(rb){rb.onclick=function(){data={};try{document.getElementById("wicForm").reset();}catch(e){}var p=document.querySelector(".wic-prog");if(p)p.style.display="";stage1();};}var idleT;function resetIdle(){clearTimeout(idleT);idleT=setTimeout(function(){data={};try{document.getElementById("wicForm").reset();}catch(e){}var p=document.querySelector(".wic-prog");if(p)p.style.display="";stage1();},180000);}document.addEventListener("click",resetIdle,true);document.addEventListener("input",resetIdle,true);resetIdle();stage1();})();
+</script>
+<script>
+(function(){
+  function notifyHeight(){
+    var h = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight
+    );
+    if (window.parent) { window.parent.postMessage({ bfhCalcHeight: h }, "*"); }
+  }
+  window.addEventListener("load", notifyHeight);
+  window.addEventListener("resize", notifyHeight);
+  if (window.MutationObserver) {
+    new MutationObserver(notifyHeight).observe(document.body, { childList:true, subtree:true, attributes:true });
+  }
+  setInterval(notifyHeight, 500);
+})();
+</script>
+</body>
+</html>
