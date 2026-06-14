@@ -112,12 +112,12 @@ const BFH_CONFIG = {
           <input class="bfh-input" id="bfh-email" type="email" autocomplete="email" placeholder="you@example.com">
         </div>
         <div class="bfh-field">
-          <label class="bfh-label" for="bfh-phone">Phone (optional)</label>
+          <label class="bfh-label" for="bfh-phone">Phone</label>
           <input class="bfh-input" id="bfh-phone" type="tel" autocomplete="tel" placeholder="(808) 555-0123">
         </div>
       </div>
       <button class="bfh-btn" id="bfh-show-btn">See my estimate</button>
-      <p class="bfh-err" id="bfh-err2">Enter your name, a valid email, and (for contractors) your company name.</p>
+      <p class="bfh-err" id="bfh-err2">Enter your name, phone, and a valid email (and, for contractors, your company name).</p>
       <button class="bfh-back" id="bfh-back1">&larr; Change project details</button>
       <p class="bfh-note">We'll email a copy of your estimate. No spam — local Oahu business.</p>
     </div>
@@ -190,7 +190,7 @@ const BFH_CONFIG = {
     const phoneVal = $("bfh-phone").value.trim();
     const body = {
       name: $("bfh-name").value.trim(),
-      email: emailVal || (phoneVal ? phoneVal.replace(/[^0-9]/g,"") + "@no-email.bestflooringhonolulu.com" : "lead@no-email.bestflooringhonolulu.com"),
+      email: emailVal,
       phone: phoneVal,
       company: company,
       customerType: customerType,
@@ -243,9 +243,11 @@ const BFH_CONFIG = {
     const email = $("bfh-email").value.trim();
     const isContractor = $("bfh-customer-type").value === "contractor";
     const company = $("bfh-company").value.trim();
+    const phone = $("bfh-phone").value.trim();
+    const phoneOk = phone.length > 0;
     const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     const companyOk = !isContractor || company.length > 0;
-    if (!name || !emailOk || !companyOk) { $("bfh-err2").style.display = "block"; return; }
+    if (!name || !emailOk || !phoneOk || !companyOk) { $("bfh-err2").style.display = "block"; return; }
     $("bfh-err2").style.display = "none";
     $("bfh-show-btn").disabled = true;
     postLead({ source: "BFH flooring calculator" });
