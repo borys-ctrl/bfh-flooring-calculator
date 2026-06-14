@@ -11,7 +11,7 @@
 
 <script>
 const BFH_CONFIG = {
-  LEAD_WEBHOOK_URL: "https://flow.zoho.com/801316881/flow/webhook/incoming?zapikey=1001.90f736eced94cb633e88c239ba0eb44f.64c7fdb431535962a88221472b4492fb&isdebug=false",
+  LEAD_WEBHOOK_URL: "https://bfh-lead-relay.vercel.app/api/lead?target=calculator",
   WASTE_FACTOR: 0.10,
   INSTALL_RATE: { low: 2.5, high: 4.5 },
   FLOORS: [
@@ -209,7 +209,7 @@ const BFH_CONFIG = {
     try {
       fetch(C.LEAD_WEBHOOK_URL, {
         method: "POST",
-        mode: "no-cors",
+        mode: 'cors',
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams(body).toString()
       });
