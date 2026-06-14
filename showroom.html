@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flooring Showroom</title>
+</head>
+<body style="margin:0;padding:0;">
+<style>
+.bfh-lp{max-width:1080px;margin:0 auto;font-size:17px;line-height:1.65;color:#1f2937;}
+.bfh-lp h2{font-size:1.7em;margin:1.6em 0 .5em;line-height:1.25;}
+.bfh-lp h3{font-size:1.2em;margin:1.2em 0 .4em;}
+.bfh-hero{background:linear-gradient(135deg,#fff5ef 0%,#ffe9db 100%);border-radius:16px;padding:34px 30px;margin:0 0 22px;border:1px solid #ffd9c2;}
+.bfh-hero p{font-size:1.12em;margin:.5em 0 1.2em;}
+.bfh-cta{display:inline-block;background:#e8650f;color:#fff!important;text-decoration:none;font-weight:700;padding:14px 26px;border-radius:10px;font-size:1.05em;margin:4px 8px 4px 0;}
+.bfh-cta.alt{background:#fff;color:#e8650f!important;border:2px solid #e8650f;}
+.bfh-cta:hover{opacity:.92;}
+.bfh-stats{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 26px;}
+.bfh-stat{flex:1 1 150px;background:#fff;border:1px solid #ececec;border-radius:12px;padding:16px;text-align:center;}
+.bfh-stat .n{font-size:1.5em;font-weight:800;color:#e8650f;display:block;}
+.bfh-stat .l{font-size:.92em;color:#4b5563;}
+.bfh-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:18px 0;}
+.bfh-card{background:#fff;border:1px solid #ececec;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.bfh-card .ic{font-size:1.8em;display:block;margin-bottom:6px;}
+.bfh-card b{display:block;margin-bottom:4px;font-size:1.05em;}
+.bfh-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:18px 0;}
+.bfh-loc{background:#fafafa;border:1px solid #ececec;border-radius:12px;padding:20px;}
+.bfh-loc h3{margin-top:0;display:flex;align-items:center;gap:8px;}
+.bfh-loc .row{display:flex;gap:8px;padding:5px 0;align-items:flex-start;}
+.bfh-loc .row .e{flex:0 0 22px;}
+.bfh-list{list-style:none;padding:0;margin:14px 0;}
+.bfh-list li{padding:7px 0 7px 32px;position:relative;}
+.bfh-list li:before{content:"✔";position:absolute;left:0;color:#e8650f;font-weight:700;}
+.bfh-pills{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+.bfh-pill{display:inline-block;background:#fff4ec;color:#b8480a!important;text-decoration:none;border:1px solid #ffd9c2;border-radius:999px;padding:7px 15px;font-weight:600;font-size:.95em;}
+a.bfh-pill:hover{background:#e8650f;color:#fff!important;border-color:#e8650f;}
+.bfh-tip{background:#f0f7ff;border-left:4px solid #2f80ed;border-radius:8px;padding:14px 18px;margin:16px 0;}
+.bfh-tip b{color:#1c5fb0;}
+.bfh-band{background:#fff4ec;border:1px dashed #e8650f;border-radius:14px;padding:22px;text-align:center;margin:26px 0;}
+.bfh-band b{font-size:1.15em;}
+.bfh-steps{counter-reset:s;list-style:none;padding:0;margin:16px 0;}
+.bfh-steps li{counter-increment:s;position:relative;padding:6px 0 6px 46px;margin:8px 0;}
+.bfh-steps li:before{content:counter(s);position:absolute;left:0;top:4px;width:30px;height:30px;background:#e8650f;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;}
+.bfh-final{background:#1f2937;color:#fff;border-radius:16px;padding:32px 28px;text-align:center;margin:30px 0 6px;}
+.bfh-final h2{color:#fff;margin-top:0;}
+.bfh-final p{color:#e5e7eb;}
+
+.bfhq-form{background:#fafafa;border:1px solid #ececec;border-radius:14px;padding:22px;margin:14px 0;}
+.bfhq-form label{display:block;font-weight:600;margin:10px 0 4px;font-size:.95em;}
+.bfhq-form input,.bfhq-form textarea{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid #cfcfcf;border-radius:8px;font-size:1em;font-family:inherit;}
+.bfh-frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:560px){.bfh-frow{grid-template-columns:1fr;}}
+.bfh-fnote{font-size:.88em;color:#6b7280;margin:12px 0;}
+.bfh-fmsg{margin-top:12px;font-weight:600;}
+.bfh-rev{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0;}
+@media(max-width:560px){.bfh-rev{grid-template-columns:1fr;}}
+.bfh-revcard{background:#fff;border:1px solid #ececec;border-radius:12px;padding:20px;text-align:center;}
+.bfh-revcard b{display:block;margin:6px 0;font-size:1.1em;}
+.bfh-revstars{color:#f5a623;font-size:1.5em;letter-spacing:2px;}
+.bfh-stat strong{display:block;line-height:1.15;}.bfh-stat span{display:block;}</style>
+<div class="bfh-lp">
+
+<div class="bfh-hero">
+<p>🪵 Choosing new flooring is a big decision — and it gets a lot easier when you can <strong>see it, touch it, and take samples home for free</strong> before you buy. That's exactly what our Honolulu flooring showroom is for. Compare vinyl plank, laminate, hardwood, carpet and more, get expert advice, and serve homeowners and contractors across <strong>all of Oahu</strong>.</p>
+<a class="bfh-cta" href="tel:+18082104807">📞 Call or text (808) 210-4807</a>
+<a class="bfh-cta alt" href="/pages/flooring-cost-calculator">🧮 Get an instant estimate</a>
+<a class="bfh-cta alt" href="#quote">📝 Request a quote</a>
+</div>
+
+<div class="bfh-stats">
+<div class="bfh-stat">
+<span class="n">2</span><span class="l">Oahu locations</span>
+</div>
+<div class="bfh-stat">
+<span class="n">100s</span><span class="l">of jobs completed</span>
+</div>
+<div class="bfh-stat">
+<span class="n">Free</span><span class="l">take-home samples</span>
+</div>
+<div class="bfh-stat">
+<span class="n">7 days</span><span class="l">a week we're reachable</span>
+</div>
+</div>
+
+<h2>Why visit our showroom?</h2>
+<div class="bfh-grid">
+<div class="bfh-card">
+<span class="ic">📍</span><b>Easy to find</b>Right on Nimitz Highway, with parking in front of and behind the building.</div>
+<div class="bfh-card">
+<span class="ic">🎨</span><b>Huge selection</b>Hawaii-local and national brands, plus our own vinyl plank line, BFH.</div>
+<div class="bfh-card">
+<span class="ic">👷</span><b>Expert consultants</b>Our team has worked on hundreds of flooring jobs and helps you choose with confidence.</div>
+<div class="bfh-card">
+<span class="ic">🆓</span><b>Free take-home samples</b>See a sample in the exact room where it'll be installed before you decide.</div>
+<div class="bfh-card">
+<span class="ic">❄️</span><b>Comfortable space</b>Air conditioning, bright lighting, and comfortable seating.</div>
+<div class="bfh-card">
+<span class="ic">🚶</span><b>No appointment needed</b>Just stop by during business hours — we're ready to help.</div>
+</div>
+
+<h2>What you can see &amp; order</h2>
+<p>We're always adding new options as they reach the market. Browse a category, or come in and compare them side by side:</p>
+<div class="bfh-pills">
+<a class="bfh-pill" href="/collections/vinyl-plank-flooring">Vinyl plank</a>
+<a class="bfh-pill" href="/collections/carpet">Carpet</a>
+<a class="bfh-pill" href="/collections/sheet-vinyl-flooring">Sheet vinyl</a>
+<a class="bfh-pill" href="/collections/hardwood-flooring">Hardwood</a>
+<a class="bfh-pill" href="/collections/laminate-flooring">Laminate</a>
+<a class="bfh-pill" href="/collections/bamboo-flooring">Bamboo</a>
+<a class="bfh-pill" href="/collections/vct-flooring">Vinyl tile (VCT)</a>
+</div>
+<p>💡 By far the most popular choice right now is <strong>wood-look vinyl plank</strong> — customers love its luxury appearance at an affordable price.</p>
+<h3>Brands we carry</h3>
+<div class="bfh-pills">
+<a class="bfh-pill" href="/collections/bfh-flooring">BFH (our own line)</a>
+<a class="bfh-pill" href="/collections/shaw-flooring">Shaw</a>
+<a class="bfh-pill" href="/collections/mohawk-flooring">Mohawk</a>
+<a class="bfh-pill" href="/collections/arcade-green-flooring">Arcade Green</a>
+<a class="bfh-pill" href="/collections/h-c-flooring-and-stone">H&amp;C Flooring and Stone</a>
+<a class="bfh-pill" href="/collections/hawaiian-style-flooring">Hawaiian Style Flooring</a>
+<span class="bfh-pill">OCG Building Supply</span>
+<span class="bfh-pill">Golden Cabinets</span>
+<span class="bfh-pill">Honolulu Building Supply &amp; more</span>
+</div>
+
+<h2>Our two Oahu locations</h2>
+<div class="bfh-info">
+<div class="bfh-loc">
+<h3>🏬 Nimitz Center Showroom</h3>
+<p>Our main 1,080 sq. ft. showroom with full sample boards, sample bundles, and individual take-home samples.</p>
+<div class="row">
+<span class="e">📍</span><span>1130 N Nimitz Hwy, A-121, Honolulu, HI 96817 (next to Red Wing)</span>
+</div>
+<div class="row">
+<span class="e">🕘</span><span>Monday – Saturday, 10:00 AM – 5:00 PM</span>
+</div>
+<div class="row">
+<span class="e">🅿️</span><span>Parking in front of and behind the building</span>
+</div>
+<div class="row">
+<span class="e">📞</span><span>(808) 210-4807</span>
+</div>
+<div class="row">
+<span class="e">✉️</span><span>info@bestflooringhonolulu.com</span>
+</div>
+</div>
+<div class="bfh-loc">
+<h3>📦 Waipio Business Center (Warehouse &amp; Pickup)</h3>
+<p>Our 3,600 sq. ft. warehouse where orders are picked up, with a 200 sq. ft. showroom displaying our NRORO brand products.</p>
+<div class="row">
+<span class="e">📍</span><span>94-1388 Moaniani St, Unit 104, Waipahu, HI 96797</span>
+</div>
+<div class="row">
+<span class="e">🕗</span><span>Monday – Friday, 8:00 AM – 3:00 PM</span>
+</div>
+<div class="row">
+<span class="e">📞</span><span>(808) 210-4807</span>
+</div>
+<div class="row">
+<span class="e">ℹ️</span><span>Pickup by appointment only — we'll confirm your time after purchase</span>
+</div>
+</div>
+</div>
+
+<h2>What to expect during your visit</h2>
+<p>When you arrive, a flooring consultant will ask a few quick questions to understand your project:</p>
+<ul class="bfh-list">
+<li>Which material interests you — vinyl plank, hardwood, or laminate?</li>
+<li>What flooring features matter most to you?</li>
+<li>What colors do you prefer?</li>
+<li>What's your budget for materials?</li>
+<li>Which areas of your property are you updating?</li>
+</ul>
+<p>From there, they'll show you options that fit your needs, check availability and pricing, and help you take home samples to test. Most materials are in stock and ready to order.</p>
+<p>💳 Pay by cash, personal check, cashier's check, debit, or credit card. <em>If you're buying materials only and paying by personal check, we release the flooring once the check clears.</em></p>
+
+<div class="bfh-tip">
+<b>💡 Pro tip:</b> Always take free samples home. Place them near your walls, furniture, and countertops and view them at different times of day — the same floor can look very different depending on lighting, angle, and room.</div>
+<div class="bfh-tip">
+<b>💡 Pro tip:</b> When you order, don't forget the accessories — baseboards, stair noses, T-moldings, end caps, and underlayment.</div>
+
+<div class="bfh-band">
+<b>📐 Not sure how much flooring you need?</b><br>Get a free, instant ballpark in under a minute. <a class="bfh-cta" href="/pages/flooring-cost-calculator" style="margin-top:12px;">🧮 Try the cost calculator</a>
+</div>
+
+<h2>Order pickup &amp; delivery</h2>
+<ul class="bfh-list">
+<li>
+<strong>Pickup:</strong> We need 24 hours to prepare your order. Because products are stored at our Waipio warehouse, our team confirms the pickup address and time after payment (by appointment only).</li>
+<li>
+<strong>Free delivery over $5,000:</strong> Material orders over $5,000 ship free on Oahu. Orders under $5,000 have a delivery fee — contact our sales team for pricing.</li>
+<li>
+<strong>Curbside:</strong> We unload as close to your property as the vehicle can safely park. We don't carry flooring inside the home.</li>
+</ul>
+
+<h2>How to prepare for your visit</h2>
+<p>It's not required, but a little prep helps you make the best choice:</p>
+<ol class="bfh-steps">
+<li>
+<strong>Decide what you like.</strong> Notice flooring at friends' and neighbors' homes — color, type, and feel underfoot. Snap a photo of what you like and note what you don't.</li>
+<li>
+<strong>Browse our store &amp; blog.</strong> Our <a href="/collections/all">online store</a> shows what's in stock in Hawaii, and our <a href="/blogs/news">blog</a> is a deep resource of flooring guidance for homeowners.</li>
+<li>
+<strong>Find inspiration online.</strong> Save photos of floors you love and show our consultants — they'll do their best to match the look.</li>
+</ol>
+
+
+<h2 id="quote">📝 Request your free quote</h2>
+<p>Tell us about your project and we'll get right back to you. Prefer to talk? Call or text <strong>(808) 210-4807</strong>.</p>
+<form class="bfhq-form" data-source="showroom-page" onsubmit="return bfhSubmit(this)">
+<div class="bfh-frow">
+<label>Full name*<input type="text" name="name" required="" placeholder="First and last name"></label>
+<label>Phone*<input type="tel" name="phone" required="" placeholder="(808) 555-0123"></label>
+</div>
+<div class="bfh-frow">
+<label>Email*<input type="email" name="email" required="" placeholder="you@example.com"></label>
+<label>Property address<input type="text" name="address" placeholder="123 Aloha St, Honolulu, HI 96815"></label>
+</div>
+<div class="bfh-frow">
+<label>Preferred date<input type="date" name="preferredDate"></label>
+<label>Preferred time<input type="time" name="preferredTime"></label>
+</div>
+<label>Project details<textarea name="message" rows="3" placeholder="Type of flooring, approx. square footage, rooms, timeline…"></textarea></label>
+<p class="bfh-fnote">This is a request, not a confirmed appointment. We'll check availability and follow up to confirm.</p>
+<button type="submit" class="bfh-cta" style="border:none;cursor:pointer;">📨 Send my request</button>
+<div class="bfh-fmsg" style="display:none;"></div>
+</form>
+
+
+
+
+
+
+<h2 id="reviews">What Oahu homeowners say about us</h2>
+<div class="bfh-grid">
+<div class="bfh-card bfh-revcard">
+<div class="bfh-revstars">★★★★★</div>
+<p style="font-weight:700;margin:.2em 0;font-size:1.25em">4.9 / 5</p>
+<p style="margin:.2em 0">Rated <strong>4.9 stars</strong> across <strong>74 Google reviews</strong> at our Nimitz Center showroom.</p>
+<p style="color:#5b6470;margin:.2em 0 1em">1130 N Nimitz Hwy A121, Honolulu, HI 96817</p>
+<a class="bfh-cta alt" href="https://maps.app.goo.gl/P6RGH6J7adutsAwa7" target="_blank" rel="noopener">Read Nimitz reviews on Google →</a>
+</div>
+<div class="bfh-card bfh-revcard">
+<div class="bfh-revstars">★★★★★</div>
+<p style="font-weight:700;margin:.2em 0;font-size:1.25em">5.0 / 5</p>
+<p style="margin:.2em 0">Rated <strong>5.0 stars</strong> across <strong>7 Google reviews</strong> at our Waipio Business Center store.</p>
+<p style="color:#5b6470;margin:.2em 0 1em">94-1388 Moaniani St Unit 104, Waipahu, HI 96797</p>
+<a class="bfh-cta alt" href="https://maps.app.goo.gl/uGx8Fa6gP67uPrJX6" target="_blank" rel="noopener">Read Waipio reviews on Google →</a>
+</div>
+</div>
+<div class="bfh-final">
+<h2>Stop by — no appointment needed</h2>
+<p>Come see, touch, and take home samples during business hours, or reach us with any questions. We serve all of Oahu.</p>
+<a class="bfh-cta" href="tel:+18082104807">📞 Call or text (808) 210-4807</a>
+<a class="bfh-cta alt" href="/pages/flooring-cost-calculator">🧮 Get an instant estimate</a>
+</div>
+
+</div>
+
+<script>
+window.bfhSubmit=function(f){
+  var btn=f.querySelector('button[type=submit]');
+  var msg=f.querySelector('.bfh-fmsg');
+  if(f.dataset.sent){return false;}
+  btn.disabled=true; btn.textContent='Sending…';
+  var data={
+    name:f.name.value, phone:f.phone.value, email:f.email.value,
+    address:f.address.value||'', preferredDate:f.preferredDate.value||'',
+    preferredTime:f.preferredTime.value||'', message:f.message.value||'',
+    source:f.dataset.source, ts:new Date().toISOString()
+  };
+  var body=Object.keys(data).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(data[k]);}).join('&');
+  fetch('https://flow.zoho.com/801316881/flow/webhook/incoming?zapikey=1001.90f736eced94cb633e88c239ba0eb44f.64c7fdb431535962a88221472b4492fb&isdebug=false',{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
+   .then(function(){
+     f.dataset.sent='1';
+     msg.style.display='block'; msg.style.color='#137333';
+     msg.innerHTML='✅ Thank you! Your request was sent. We\'ll be in touch soon.';
+     f.querySelectorAll('input,textarea').forEach(function(el){el.disabled=true;});
+     btn.style.display='none';
+   })
+   .catch(function(){
+     btn.disabled=false; btn.textContent='📨 Send my request';
+     msg.style.display='block'; msg.style.color='#b00020';
+     msg.innerHTML='Something went wrong. Please call or text (808) 210-4807.';
+   });
+  return false;
+};
+</script>
+<script>
+(function(){
+  function notifyHeight(){
+    var h=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight,document.body.offsetHeight,document.documentElement.offsetHeight);
+    if(window.parent){window.parent.postMessage({bfhCalcHeight:h},"*");}
+  }
+  window.addEventListener("load",notifyHeight);
+  window.addEventListener("resize",notifyHeight);
+  if(window.MutationObserver){new MutationObserver(notifyHeight).observe(document.body,{childList:true,subtree:true,attributes:true});}
+  setInterval(notifyHeight,500);
+})();
+</script>
+</body>
+</html>
