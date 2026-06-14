@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flooring Estimate</title>
+</head>
+<body style="margin:0;padding:0;">
+<style>
+.bfh-lp{max-width:1080px;margin:0 auto;font-size:17px;line-height:1.65;color:#1f2937;}
+.bfh-lp h2{font-size:1.7em;margin:1.6em 0 .5em;line-height:1.25;}
+.bfh-lp h3{font-size:1.2em;margin:1.2em 0 .4em;}
+.bfh-hero{background:linear-gradient(135deg,#fff5ef 0%,#ffe9db 100%);border-radius:16px;padding:34px 30px;margin:0 0 22px;border:1px solid #ffd9c2;}
+.bfh-hero p{font-size:1.12em;margin:.5em 0 1.2em;}
+.bfh-cta{display:inline-block;background:#e8650f;color:#fff!important;text-decoration:none;font-weight:700;padding:14px 26px;border-radius:10px;font-size:1.05em;margin:4px 8px 4px 0;}
+.bfh-cta.alt{background:#fff;color:#e8650f!important;border:2px solid #e8650f;}
+.bfh-cta:hover{opacity:.92;}
+.bfh-stats{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 26px;}
+.bfh-stat{flex:1 1 150px;background:#fff;border:1px solid #ececec;border-radius:12px;padding:16px;text-align:center;}
+.bfh-stat .n{font-size:1.5em;font-weight:800;color:#e8650f;display:block;}
+.bfh-stat .l{font-size:.92em;color:#4b5563;}
+.bfh-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:18px 0;}
+.bfh-card{background:#fff;border:1px solid #ececec;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.bfh-card .ic{font-size:1.8em;display:block;margin-bottom:6px;}
+.bfh-card b{display:block;margin-bottom:4px;font-size:1.05em;}
+.bfh-list{list-style:none;padding:0;margin:14px 0;}
+.bfh-list li{padding:7px 0 7px 32px;position:relative;}
+.bfh-list li:before{content:"✔";position:absolute;left:0;color:#e8650f;font-weight:700;}
+.bfh-pills{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+.bfh-pill{display:inline-block;background:#fff4ec;color:#b8480a!important;text-decoration:none;border:1px solid #ffd9c2;border-radius:999px;padding:7px 15px;font-weight:600;font-size:.95em;}
+a.bfh-pill:hover{background:#e8650f;color:#fff!important;border-color:#e8650f;}
+.bfh-pill.plain{color:#b8480a!important;}
+.bfh-tip{background:#f0f7ff;border-left:4px solid #2f80ed;border-radius:8px;padding:14px 18px;margin:16px 0;}
+.bfh-tip b{color:#1c5fb0;}
+.bfh-band{background:#fff4ec;border:1px dashed #e8650f;border-radius:14px;padding:22px;text-align:center;margin:26px 0;}
+.bfh-band b{font-size:1.15em;}
+.bfh-steps{counter-reset:s;list-style:none;padding:0;margin:16px 0;}
+.bfh-steps li{counter-increment:s;position:relative;padding:6px 0 6px 46px;margin:10px 0;}
+.bfh-steps li:before{content:counter(s);position:absolute;left:0;top:2px;width:30px;height:30px;background:#e8650f;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;}
+.bfh-faq{border:1px solid #ececec;border-radius:12px;padding:6px 20px;margin:16px 0;background:#fafafa;}
+.bfh-faq details{padding:12px 0;border-bottom:1px solid #ececec;}
+.bfh-faq details:last-child{border-bottom:none;}
+.bfh-faq summary{font-weight:700;cursor:pointer;font-size:1.05em;list-style:none;display:flex;gap:10px;align-items:flex-start;}
+.bfh-faq summary:before{content:"❓";flex:0 0 auto;}
+.bfh-faq p{margin:10px 0 2px 28px;}
+.bfh-final{background:#1f2937;color:#fff;border-radius:16px;padding:32px 28px;text-align:center;margin:30px 0 6px;}
+.bfh-final h2{color:#fff;margin-top:0;}
+.bfh-final p{color:#e5e7eb;}
+
+.bfhq-form{background:#fafafa;border:1px solid #ececec;border-radius:14px;padding:22px;margin:14px 0;}
+.bfhq-form label{display:block;font-weight:600;margin:10px 0 4px;font-size:.95em;}
+.bfhq-form input,.bfhq-form textarea{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid #cfcfcf;border-radius:8px;font-size:1em;font-family:inherit;}
+.bfhq-frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:560px){.bfhq-frow{grid-template-columns:1fr;}}
+.bfhq-fnote{font-size:.88em;color:#6b7280;margin:12px 0;}
+.bfhq-fmsg{margin-top:12px;font-weight:600;}
+.bfh-rev{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0;}
+@media(max-width:560px){.bfh-rev{grid-template-columns:1fr;}}
+.bfh-revcard{background:#fff;border:1px solid #ececec;border-radius:12px;padding:20px;text-align:center;}
+.bfh-revcard b{display:block;margin:6px 0;font-size:1.1em;}
+.bfh-revstars{color:#f5a623;font-size:1.5em;letter-spacing:2px;}
+.bfh-stat strong{display:block;line-height:1.15;}.bfh-stat span{display:block;}</style>
+<div class="bfh-lp">
+
+<div class="bfh-hero">
+<p>📏 A great flooring project starts with an accurate, in-person estimate — and ours are <strong>100% free, anywhere on Oahu</strong>. We come to your property, measure carefully, flag anything that could affect the job, and send you a fully itemized quote you can review at your own pace.</p>
+<a class="bfh-cta" href="tel:+18082104807">📞 Call or text (808) 210-4807</a>
+<a class="bfh-cta alt" href="/pages/flooring-cost-calculator">🧮 Get an instant ballpark</a>
+<a class="bfh-cta alt" href="#quote">📝 Request a quote</a>
+</div>
+
+<div class="bfh-stats">
+<div class="bfh-stat">
+<span class="n">$0</span><span class="l">Always free, all of Oahu</span>
+</div>
+<div class="bfh-stat">
+<span class="n">15–30</span><span class="l">minutes on-site</span>
+</div>
+<div class="bfh-stat">
+<span class="n">1 day</span><span class="l">typical quote turnaround</span>
+</div>
+<div class="bfh-stat">
+<span class="n">1,000s</span><span class="l">of estimates done</span>
+</div>
+</div>
+
+<h2>Why get your estimate from us?</h2>
+<div class="bfh-grid">
+<div class="bfh-card">
+<span class="ic">🆓</span><b>Completely free</b>Unlike Home Depot and Lowe's, who often charge for estimates, ours are always free — anywhere on Oahu.</div>
+<div class="bfh-card">
+<span class="ic">📋</span><b>Detailed &amp; itemized</b>A clear quote with separate, line-by-line breakdowns for labor and materials.</div>
+<div class="bfh-card">
+<span class="ic">⚙️</span><b>Fully adjustable</b>Add or remove almost any labor item or material to fit your budget — or DIY part of it.</div>
+<div class="bfh-card">
+<span class="ic">💎</span><b>Useful on its own</b>So detailed you can use it to order materials or compare other contractors' bids.</div>
+</div>
+
+<h2>🌺 Free estimates anywhere on Oahu</h2>
+<p>Wherever you are on the island, we'll come to you at <strong>no cost</strong> — from town to the West side, Windward, and everywhere in between:</p>
+<div class="bfh-pills">
+<span class="bfh-pill plain">📍 Honolulu</span><span class="bfh-pill plain">📍 Kapolei</span><span class="bfh-pill plain">📍 Mililani</span><span class="bfh-pill plain">📍 Kaneohe</span><span class="bfh-pill plain">📍 Hawaii Kai</span><span class="bfh-pill plain">📍 Ewa</span><span class="bfh-pill plain">📍 Waipahu</span><span class="bfh-pill plain">📍 &amp; all of Oahu</span>
+</div>
+
+<h2>⏱️ How long does it take?</h2>
+<p>Most estimates take <strong>15–30 minutes</strong>. Larger properties (over 1,500 sq. ft.), unusual layouts, or lots of questions can take longer. Since estimators run a back-to-back schedule, we recommend visiting our showroom first — our consultants there aren't on the clock and can answer questions in depth.</p>
+
+<h2>How to prepare for your estimate</h2>
+<ul class="bfh-list">
+<li>
+<strong>Be at the property</strong> at the scheduled date and time (unless you've arranged otherwise).</li>
+<li>
+<strong>Let everyone know</strong> the estimator is coming.</li>
+<li>
+<strong>Decide on the areas</strong> to be measured ahead of time.</li>
+<li>
+<strong>Make areas accessible</strong> — open doors, clear space for measuring.</li>
+<li>
+<strong>Check condo rules</strong> with your property manager for any requirements or restrictions.</li>
+<li>
+<strong>Visit our showroom first</strong> to see materials and get your questions answered.</li>
+</ul>
+
+<h2>What to expect: 5 simple steps</h2>
+<ol class="bfh-steps">
+<li>
+<strong>Book your estimate.</strong> Call or text <strong>(808) 210-4807</strong>, or request a callback via the chat (lower-right corner) or our contact page. We'll call during business hours.</li>
+<li>
+<strong>Get confirmation &amp; reminders.</strong> You'll receive a confirmation email plus a reminder on the day of your estimate.</li>
+<li>
+<strong>Meet your estimator.</strong> They'll ask about your material, furniture, color choice, soundproofing needs, and timeline, then measure the areas and flag any potential issues.</li>
+<li>
+<strong>Receive your quote.</strong> In most cases you'll get an itemized quote by email the same or next day. Our team follows up to make sure it arrived.</li>
+<li>
+<strong>Make your decision.</strong> Accept in full, request changes, buy materials only, or order labor only — whatever works best for you.</li>
+</ol>
+<div class="bfh-tip">
+<b>💡 Pro tip:</b> Let us know the best way to enter your property or where to park — especially in Waikiki and other areas with limited parking.</div>
+
+<div class="bfh-band">
+<b>🧮 Want a rough number before you book?</b><br>Get a free, instant ballpark estimate in under a minute. <a class="bfh-cta" href="/pages/flooring-cost-calculator" style="margin-top:12px;">Try the cost calculator</a>
+</div>
+
+<h2>Frequently asked questions</h2>
+<div class="bfh-faq">
+<details open=""><summary>Can you give me a quote over the phone from my square footage?</summary><p>Not accurately. Our estimator looks at far more than area — property access, job complexity, and any extra services all affect the price. An in-person estimate is the only way to give you a number you can truly rely on — and it's free.</p></details>
+<details><summary>Can you quote based on another company's estimate?</summary><p>We can't, because we don't know exactly what labor and materials they included. Our scope and pricing can differ significantly, so we quote only after our own estimate.</p></details>
+<details><summary>Can you quote without seeing some areas of my property?</summary><p>No — we quote only after visually inspecting every area to be quoted. This protects you from surprises later on.</p></details>
+<details><summary>I have an identical unit you already measured — can I reuse that quote?</summary><p>Each property needs its own visit and quote, even when units look identical, since conditions and access can vary.</p></details>
+<details><summary>Is the estimate really free, even far from your showroom?</summary><p>Yes — estimates are free anywhere on Oahu, with no travel charge.</p></details>
+</div>
+
+<h2>What we offer</h2>
+<p>We provide flooring estimates for:</p>
+<div class="bfh-pills">
+<span class="bfh-pill plain">🏠 Residential</span><span class="bfh-pill plain">🏢 Commercial</span><span class="bfh-pill plain">🎖️ Military</span><span class="bfh-pill plain">🏛️ Government</span>
+</div>
+<p>Available for these flooring options (tap to browse):</p>
+<div class="bfh-pills">
+<a class="bfh-pill" href="/collections/vinyl-plank-flooring">Vinyl plank</a>
+<a class="bfh-pill" href="/collections/laminate-flooring">Laminate</a>
+<a class="bfh-pill" href="/collections/hardwood-flooring">Hardwood</a>
+<a class="bfh-pill" href="/collections/vct-flooring">Vinyl tile (VCT)</a>
+<a class="bfh-pill" href="/collections/bamboo-flooring">Bamboo</a>
+</div>
+<p>🚫 We don't offer estimates for boats, vans, buses, or trailers. If you're a general contractor hiring us as a subcontractor, we can follow your pricing guidance as long as it aligns with our policies and price list.</p>
+<p>Want to learn more before you book? Browse our <a href="/blogs/news">flooring blog</a> or our <a href="/collections/all">online store</a>.</p>
+
+
+<h2 id="quote">📝 Request your free estimate</h2>
+<p>Tell us about your project and we'll get right back to you to schedule. Prefer to talk? Call or text <strong>(808) 210-4807</strong>.</p>
+<form class="bfhq-form" data-source="estimate-page" onsubmit="return bfhSubmit(this)">
+<div class="bfhq-frow">
+<label>Full name*<input type="text" name="name" required="" placeholder="First and last name"></label>
+<label>Phone*<input type="tel" name="phone" required="" placeholder="(808) 555-0123"></label>
+</div>
+<div class="bfhq-frow">
+<label>Email*<input type="email" name="email" required="" placeholder="you@example.com"></label>
+<label>Property address<input type="text" name="address" placeholder="123 Aloha St, Honolulu, HI 96815"></label>
+</div>
+<div class="bfhq-frow">
+<label>Preferred date<input type="date" name="preferredDate"></label>
+<label>Preferred time<input type="time" name="preferredTime"></label>
+</div>
+<label>Project details<textarea name="message" rows="3" placeholder="Type of flooring, approx. square footage, rooms, timeline…"></textarea></label>
+<p class="bfhq-fnote">This is a request, not a confirmed appointment. We'll check availability and follow up to confirm.</p>
+<button type="submit" class="bfh-cta" style="border:none;cursor:pointer;">📨 Send my request</button>
+<div class="bfhq-fmsg" style="display:none;"></div>
+</form>
+
+
+
+
+
+
+<h2 id="reviews">What Oahu homeowners say about us</h2>
+<div class="bfh-grid">
+<div class="bfh-card bfh-revcard">
+<div class="bfh-revstars">★★★★★</div>
+<p style="font-weight:700;margin:.2em 0;font-size:1.25em">4.9 / 5</p>
+<p style="margin:.2em 0">Rated <strong>4.9 stars</strong> across <strong>74 Google reviews</strong> at our Nimitz Center showroom.</p>
+<p style="color:#5b6470;margin:.2em 0 1em">1130 N Nimitz Hwy A121, Honolulu, HI 96817</p>
+<a class="bfh-cta alt" href="https://maps.app.goo.gl/P6RGH6J7adutsAwa7" target="_blank" rel="noopener">Read Nimitz reviews on Google →</a>
+</div>
+<div class="bfh-card bfh-revcard">
+<div class="bfh-revstars">★★★★★</div>
+<p style="font-weight:700;margin:.2em 0;font-size:1.25em">5.0 / 5</p>
+<p style="margin:.2em 0">Rated <strong>5.0 stars</strong> across <strong>7 Google reviews</strong> at our Waipio Business Center store.</p>
+<p style="color:#5b6470;margin:.2em 0 1em">94-1388 Moaniani St Unit 104, Waipahu, HI 96797</p>
+<a class="bfh-cta alt" href="https://maps.app.goo.gl/uGx8Fa6gP67uPrJX6" target="_blank" rel="noopener">Read Waipio reviews on Google →</a>
+</div>
+</div>
+<div class="bfh-final">
+<h2>Ready to book your free estimate?</h2>
+<p>Call or text us, or request a callback — we'll reach out during business hours. Free, anywhere on Oahu.</p>
+<a class="bfh-cta" href="tel:+18082104807">📞 Call or text (808) 210-4807</a>
+<a class="bfh-cta alt" href="/pages/flooring-cost-calculator">🧮 Get an instant ballpark</a>
+</div>
+
+</div>
+
+<script>
+window.bfhSubmit=function(f){
+  var btn=f.querySelector('button[type=submit]');
+  var msg=f.querySelector('.bfhq-fmsg');
+  if(f.dataset.sent){return false;}
+  btn.disabled=true; btn.textContent='Sending…';
+  var data={
+    name:f.name.value, phone:f.phone.value, email:f.email.value,
+    address:f.address.value||'', preferredDate:f.preferredDate.value||'',
+    preferredTime:f.preferredTime.value||'', message:f.message.value||'',
+    source:f.dataset.source, ts:new Date().toISOString()
+  };
+  var body=Object.keys(data).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(data[k]);}).join('&');
+  fetch('https://flow.zoho.com/801316881/flow/webhook/incoming?zapikey=1001.90f736eced94cb633e88c239ba0eb44f.64c7fdb431535962a88221472b4492fb&isdebug=false',{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
+   .then(function(){
+     f.dataset.sent='1';
+     msg.style.display='block'; msg.style.color='#137333';
+     msg.innerHTML='✅ Thank you! Your request was sent. We\'ll be in touch soon.';
+     f.querySelectorAll('input,textarea').forEach(function(el){el.disabled=true;});
+     btn.style.display='none';
+   })
+   .catch(function(){
+     btn.disabled=false; btn.textContent='📨 Send my request';
+     msg.style.display='block'; msg.style.color='#b00020';
+     msg.innerHTML='Something went wrong. Please call or text (808) 210-4807.';
+   });
+  return false;
+};
+</script>
+<script>
+(function(){
+  function notifyHeight(){
+    var h=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight,document.body.offsetHeight,document.documentElement.offsetHeight);
+    if(window.parent){window.parent.postMessage({bfhCalcHeight:h},"*");}
+  }
+  window.addEventListener("load",notifyHeight);
+  window.addEventListener("resize",notifyHeight);
+  if(window.MutationObserver){new MutationObserver(notifyHeight).observe(document.body,{childList:true,subtree:true,attributes:true});}
+  setInterval(notifyHeight,500);
+})();
+</script>
+</body>
+</html>
