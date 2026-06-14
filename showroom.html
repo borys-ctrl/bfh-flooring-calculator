@@ -270,7 +270,7 @@ window.bfhSubmit=function(f){
     source:f.dataset.source, ts:new Date().toISOString()
   };
   var body=Object.keys(data).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(data[k]);}).join('&');
-  fetch('https://flow.zoho.com/801316881/flow/webhook/incoming?zapikey=1001.90f736eced94cb633e88c239ba0eb44f.64c7fdb431535962a88221472b4492fb&isdebug=false',{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
+  fetch('https://bfh-lead-relay.vercel.app/api/lead',{method:'POST',mode: 'cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
    .then(function(){
      f.dataset.sent='1';
      msg.style.display='block'; msg.style.color='#137333';
