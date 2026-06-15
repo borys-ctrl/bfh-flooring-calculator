@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reseller Margin Calculator | Best Flooring Honolulu</title>
+<style>
+.wic{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;max-width:680px;margin:0 auto;color:#1a1a1a}
+.wic *{box-sizing:border-box}
+.wic-card{background:#fff;border:1px solid #eee;border-radius:18px;padding:30px 26px;box-shadow:0 4px 18px rgba(0,0,0,.05)}
+.wic-q{font-size:1.55rem;font-weight:800;margin:0 0 6px;line-height:1.25}
+.wic-sub{color:#666;font-size:1.02rem;margin:0 0 22px}
+.wic-field{margin:0 0 22px}
+.wic-field label{display:block;font-weight:700;font-size:1.05rem;margin:0 0 4px}
+.wic-help{color:#888;font-size:.85rem;margin:0 0 10px}
+.wic-slider{display:flex;align-items:center;gap:14px}
+.wic-slider input[type=range]{flex:1;accent-color:#ea580c;height:6px}
+.wic-val{font-weight:800;font-size:1.15rem;min-width:96px;text-align:right;color:#ea580c}
+.wic-toggle{display:flex;gap:0;border:2px solid #e5e5e5;border-radius:10px;overflow:hidden;margin:6px 0 0}
+.wic-toggle button{flex:1;border:0;background:#fff;padding:11px;font-weight:700;font-size:.95rem;cursor:pointer;color:#555}
+.wic-toggle button.on{background:#ea580c;color:#fff}
+.wic-result{background:linear-gradient(135deg,#fff5ef,#ffe9db);border:1px solid #ffd9c2;border-radius:16px;padding:24px 22px;margin:22px 0 0;text-align:center}
+.wic-big{font-size:2.6rem;font-weight:900;color:#c2410c;line-height:1.05;margin:4px 0}
+.wic-big-lbl{font-weight:700;color:#7c2d12;font-size:1.05rem}
+.wic-mini{display:flex;gap:12px;margin:18px 0 0;justify-content:center;flex-wrap:wrap}
+.wic-mini div{background:#fff;border-radius:12px;padding:12px 16px;min-width:130px}
+.wic-mini .n{font-size:1.35rem;font-weight:800;color:#ea580c}
+.wic-mini .l{font-size:.8rem;color:#666;font-weight:600}
+.wic-cta{margin:24px 0 0}
+.wic-cta h3{font-size:1.25rem;font-weight:800;margin:0 0 4px}
+.wic-cta p{color:#555;font-size:.98rem;margin:0 0 16px}
+.wic-input,.wic-select{width:100%;font-size:1.05rem;padding:13px 15px;border:2px solid #d4d4d4;border-radius:11px;outline:none;font-family:inherit;margin:0 0 12px;background:#fff}
+.wic-input:focus,.wic-select:focus{border-color:#ea580c}
+.wic-row{display:flex;gap:12px}.wic-row>div{flex:1}
+.wic-btn{width:100%;font-size:1.15rem;font-weight:800;padding:15px;border:0;border-radius:11px;background:#ea580c;color:#fff;cursor:pointer}
+.wic-btn:hover{background:#c2410c}
+.wic-disc{color:#999;font-size:.78rem;margin:14px 0 0;line-height:1.45}
+.wic-ports{background:#f3f4f6;border-radius:12px;padding:14px 16px;margin:20px 0 0;font-size:.92rem;color:#444}
+.wic-ports b{color:#1f2937}
+.wic-err{display:none;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:11px 13px;border-radius:9px;margin:0 0 12px;font-size:.92rem}
+.wic-ok{text-align:center;padding:18px 6px}.wic-ok h2{font-size:1.6rem;margin:0 0 8px}.wic-ok p{color:#555}
+@media(max-width:540px){.wic-big{font-size:2.1rem}.wic-row{flex-direction:column;gap:0}}
+</style>
+</head>
+<body>
+<div class="wic">
+  <div class="wic-card" id="wicCard">
+    <h1 class="wic-q">How much more could you keep per year?</h1>
+    <p class="wic-sub">As a Best Flooring Honolulu partner, your material cost on our Nroro Hawaii Collection SPC drops to about half of retail. Here's what that spread is worth to your business \u2014 with what you charge clients unchanged.</p>
+
+    <div class="wic-field">
+      <label>Typical job size</label>
+      <div class="wic-help">Square feet of flooring per job</div>
+      <div class="wic-slider"><input type="range" id="sf" min="200" max="5000" step="50" value="1200"><span class="wic-val" id="sfVal">1,200 sf</span></div>
+    </div>
+
+    <div class="wic-field">
+      <label>Jobs per month</label>
+      <div class="wic-help">Roughly how many flooring jobs you do</div>
+      <div class="wic-slider"><input type="range" id="jobs" min="1" max="30" step="1" value="4"><span class="wic-val" id="jobsVal">4</span></div>
+    </div>
+
+    <div class="wic-field">
+      <label>What you pay now for material</label>
+      <div class="wic-help">Per square foot. Not sure? Use our retail benchmark.</div>
+      <div class="wic-toggle">
+        <button type="button" id="tBench" class="on">Use $4.39/sf retail</button>
+        <button type="button" id="tCustom">Enter my cost</button>
+      </div>
+      <div class="wic-slider" id="costWrap" style="display:none;margin-top:12px"><input type="range" id="cost" min="2.5" max="8" step="0.05" value="4.39"><span class="wic-val" id="costVal">$4.39/sf</span></div>
+    </div>
+
+    <div class="wic-result">
+      <div class="wic-big-lbl">Extra margin you'd keep per year</div>
+      <div class="wic-big" id="rYear">$0</div>
+      <div class="wic-mini">
+        <div><div class="n" id="rJob">$0</div><div class="l">per job</div></div>
+        <div><div class="n" id="rMonth">$0</div><div class="l">per month</div></div>
+        <div><div class="n" id="rRate">~50%</div><div class="l">lower material cost</div></div>
+      </div>
+    </div>
+
+    <div class="wic-cta">
+      <h3>Lock in partner pricing + free samples</h3>
+      <p>Get your contractor price list and a free Nroro sample bundle. We'll be in touch within 1 business day.</p>
+      <div class="wic-err" id="wicErr"></div>
+      <form id="wicForm" novalidate>
+        <div class="wic-row">
+          <div><input class="wic-input" id="f_name" placeholder="Full name *" autocomplete="name"></div>
+          <div><input class="wic-input" id="f_company" placeholder="Company (optional)" autocomplete="organization"></div>
+        </div>
+        <div class="wic-row">
+          <div><input class="wic-input" id="f_email" type="email" placeholder="Email *" autocomplete="email"></div>
+          <div><input class="wic-input" id="f_phone" type="tel" placeholder="Phone *" autocomplete="tel"></div>
+        </div>
+        <select class="wic-select" id="f_island">
+          <option value="">Which island? *</option>
+          <option>Oahu</option><option>Kauai</option><option>Maui</option>
+          <option>Molokai</option><option>Lanai</option>
+          <option>Hawaii Island - Hilo</option><option>Hawaii Island - Kona</option>
+        </select>
+        <button type="submit" class="wic-btn" id="wicBtn">Send my free sample bundle</button>
+      </form>
+    </div>
+
+    <div class="wic-ports">
+      <b>We deliver statewide.</b> Pick up or local delivery on <b>Oahu</b>, plus every port Young Brothers serves \u2014 <b>Kauai, Molokai, Maui, Lanai, Hilo, and Kona</b>. Wherever you build in Hawaii, we can get product to you.
+    </div>
+
+    <p class="wic-disc">Estimate only. Based on our Nroro Hawaii Collection SPC click-in vinyl at partner pricing vs. the $4.39/sf retail benchmark (or the cost you enter). Assumes your price to clients is unchanged, so the lower material cost becomes additional margin. Your actual products, volume, and pricing will vary.</p>
+  </div>
+</div>
+<script>
+(function(){
+  var RELAY="https://bfh-lead-relay.vercel.app/api/consultation";
+  var PARTNER=2.19;
+  function H(){try{parent.postMessage({bfhCalcHeight:document.body.scrollHeight},'*');}catch(e){}}
+  window.addEventListener('load',H);window.addEventListener('resize',H);new MutationObserver(H).observe(document.body,{subtree:true,childList:true,attributes:true});
+  var $=function(id){return document.getElementById(id);};
+  var sf=$('sf'),jobs=$('jobs'),cost=$('cost'),benchMode=true;
+  function money(n){return '$'+Math.round(n).toLocaleString('en-US');}
+  function calc(){
+    var current=benchMode?4.39:parseFloat(cost.value);
+    var spread=Math.max(0,current-PARTNER);
+    var sfv=parseInt(sf.value,10),jv=parseInt(jobs.value,10);
+    var perJob=spread*sfv, perMonth=perJob*jv, perYear=perMonth*12;
+    var pct=Math.round((spread/current)*100);
+    $('sfVal').textContent=sfv.toLocaleString('en-US')+' sf';
+    $('jobsVal').textContent=jv;
+    $('costVal').textContent='$'+current.toFixed(2)+'/sf';
+    $('rJob').textContent=money(perJob);
+    $('rMonth').textContent=money(perMonth);
+    $('rYear').textContent=money(perYear);
+    $('rRate').textContent='~'+pct+'%';
+    window.__calcSnap={perJob:Math.round(perJob),perMonth:Math.round(perMonth),perYear:Math.round(perYear),sf:sfv,jobs:jv,currentCost:current};
+    H();
+  }
+  [sf,jobs,cost].forEach(function(el){el.addEventListener('input',calc);});
+  $('tBench').addEventListener('click',function(){benchMode=true;this.classList.add('on');$('tCustom').classList.remove('on');$('costWrap').style.display='none';calc();});
+  $('tCustom').addEventListener('click',function(){benchMode=false;this.classList.add('on');$('tBench').classList.remove('on');$('costWrap').style.display='flex';calc();});
+  calc();
+
+  var f=$('wicForm'),btn=$('wicBtn'),err=$('wicErr'),card=$('wicCard');
+  function showErr(m){err.textContent=m;err.style.display='block';H();}
+  f.addEventListener('submit',function(e){
+    e.preventDefault();err.style.display='none';
+    var name=$('f_name').value.trim(),email=$('f_email').value.trim(),phone=$('f_phone').value.trim(),company=$('f_company').value.trim(),island=$('f_island').value;
+    if(!name||!email||!phone||!island){showErr('Please add your name, email, phone, and island.');return;}
+    btn.disabled=true;btn.textContent='Sending\u2026';
+    var s=window.__calcSnap||{};
+    var message='[Reseller Calculator] Island: '+island+(company?' | Company: '+company:'')+' | Est. extra margin/yr: '+money(s.perYear||0)+' (job '+(s.sf||0)+'sf x '+(s.jobs||0)+'/mo, current cost $'+(s.currentCost||0).toFixed(2)+'/sf)';
+    fetch(RELAY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name,email:email,phone:phone,contactType:'Reseller Calculator',company:company,island:island,message:message})})
+      .then(function(){card.innerHTML='<div class="wic-ok"><h2>You\'re all set \u2713</h2><p>Thanks, '+name.split(' ')[0]+'! We\'ll send your contractor price list and free Nroro sample bundle within 1 business day.</p></div>';H();})
+      .catch(function(){card.innerHTML='<div class="wic-ok"><h2>Almost there</h2><p>We couldn\'t reach the server. Please email borys@bestflooringhonolulu.com or call us and we\'ll set you up.</p></div>';H();});
+  });
+})();
+</script>
+</body>
+</html>
