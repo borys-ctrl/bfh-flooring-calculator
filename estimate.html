@@ -232,7 +232,7 @@ window.bfhSubmit=function(f){
     source:f.dataset.source, ts:new Date().toISOString()
   };
   var body=Object.keys(data).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(data[k]);}).join('&');
-  fetch('https://bfh-lead-relay.vercel.app/api/lead',{method:'POST',mode: 'cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
+  fetch('https://bfh-lead-relay.vercel.app/api/form',{method:'POST',mode: 'cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
    .then(function(){
      f.dataset.sent='1';
      msg.style.display='block'; msg.style.color='#137333';
