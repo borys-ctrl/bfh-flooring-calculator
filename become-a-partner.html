@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contractor Partner Application | Best Flooring Honolulu</title>
+<style>
+.wic{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;max-width:680px;margin:0 auto;color:#1a1a1a}
+.wic *{box-sizing:border-box}
+.wic-card{background:#fff;border:1px solid #eee;border-radius:18px;padding:30px 26px;box-shadow:0 4px 18px rgba(0,0,0,.05)}
+.wic-q{font-size:1.55rem;font-weight:800;margin:0 0 6px;line-height:1.25}
+.wic-sub{color:#666;font-size:1.02rem;margin:0 0 22px}
+.wic-field{margin:0 0 18px}
+.wic-field label{display:block;font-weight:700;font-size:1.05rem;margin:0 0 8px}
+.wic-input,.wic-select,.wic-area{width:100%;font-size:1.1rem;padding:14px 16px;border:2px solid #d4d4d4;border-radius:12px;outline:none;font-family:inherit;background:#fff}
+.wic-input:focus,.wic-select:focus,.wic-area:focus{border-color:#ea580c}
+.wic-area{min-height:90px;resize:vertical}
+.wic-btn{width:100%;font-size:1.2rem;font-weight:800;padding:16px;border:0;border-radius:12px;background:#ea580c;color:#fff;cursor:pointer}
+.wic-btn:hover{background:#c2410c}
+.wic-note{color:#777;font-size:.9rem;text-align:center;margin:14px 0 0}
+.wic-ok{text-align:center;padding:20px 6px}
+.wic-ok h2{font-size:1.7rem;margin:0 0 10px}
+.wic-ok p{color:#555;font-size:1.05rem;margin:0}
+.wic-err{display:none;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:12px 14px;border-radius:10px;margin:0 0 16px;font-size:.95rem}
+.wic-row{display:flex;gap:14px}
+.wic-row>div{flex:1}
+@media(max-width:540px){.wic-row{flex-direction:column;gap:0}}
+</style>
+</head>
+<body>
+<div class="wic">
+  <div class="wic-card" id="wicCard">
+    <h1 class="wic-q">Get contractor pricing &amp; price list</h1>
+    <p class="wic-sub">Apply for our trade program. We'll email your wholesale price list and a free Nroro sample bundle offer.</p>
+    <div class="wic-err" id="wicErr"></div>
+    <form id="wicForm" novalidate>
+      <div class="wic-row">
+        <div class="wic-field"><label for="f_name">Full name *</label><input class="wic-input" id="f_name" autocomplete="name" required></div>
+        <div class="wic-field"><label for="f_company">Company name</label><input class="wic-input" id="f_company" autocomplete="organization"></div>
+      </div>
+      <div class="wic-row">
+        <div class="wic-field"><label for="f_email">Email *</label><input class="wic-input" id="f_email" type="email" autocomplete="email" required></div>
+        <div class="wic-field"><label for="f_phone">Phone *</label><input class="wic-input" id="f_phone" type="tel" autocomplete="tel" required></div>
+      </div>
+      <div class="wic-field"><label for="f_type">What's your trade? *</label>
+        <select class="wic-select" id="f_type" required>
+          <option value="">Select one…</option>
+          <option>Flooring installer</option>
+          <option>General contractor</option>
+          <option>Contractor / Remodeler</option>
+          <option>Interior designer</option>
+          <option>Architect</option>
+          <option>Handyman</option>
+          <option>Property / restoration / mitigation</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="wic-field"><label for="f_msg">Tell us about your business (optional)</label><textarea class="wic-area" id="f_msg" placeholder="Typical job size, products you use, how often you buy…"></textarea></div>
+      <button type="submit" class="wic-btn" id="wicBtn">Request contractor pricing</button>
+      <p class="wic-note">We'll reply within 1 business day. No spam, ever.</p>
+    </form>
+  </div>
+</div>
+<script>
+(function(){
+  var RELAY="https://bfh-lead-relay.vercel.app/api/consultation";
+  function H(){try{parent.postMessage({bfhCalcHeight:document.body.scrollHeight},'*');}catch(e){}}
+  window.addEventListener('load',H);window.addEventListener('resize',H);new MutationObserver(H).observe(document.body,{subtree:true,childList:true,attributes:true});
+  var f=document.getElementById('wicForm'),btn=document.getElementById('wicBtn'),err=document.getElementById('wicErr'),card=document.getElementById('wicCard');
+  function showErr(m){err.textContent=m;err.style.display='block';H();}
+  f.addEventListener('submit',function(e){
+    e.preventDefault();err.style.display='none';
+    var name=document.getElementById('f_name').value.trim();
+    var email=document.getElementById('f_email').value.trim();
+    var phone=document.getElementById('f_phone').value.trim();
+    var company=document.getElementById('f_company').value.trim();
+    var type=document.getElementById('f_type').value;
+    var msg=document.getElementById('f_msg').value.trim();
+    if(!name||!email||!phone||!type){showErr('Please fill in your name, email, phone, and trade.');return;}
+    btn.disabled=true;btn.textContent='Sending…';
+    var message='[Partner Application] Trade: '+type+(company?' | Company: '+company:'')+(msg?' | '+msg:'');
+    fetch(RELAY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name,email:email,phone:phone,contactType:'Partner Application',company:company,businessType:type,message:message})})
+      .then(function(){
+        card.innerHTML='<div class="wic-ok"><h2>Application received \u2713</h2><p>Thanks, '+name.split(' ')[0]+'! We\'ll email your contractor price list and free Nroro sample bundle details within 1 business day.</p></div>';H();
+      })
+      .catch(function(){
+        card.innerHTML='<div class="wic-ok"><h2>Almost there</h2><p>We couldn\'t reach the server. Please email borys@bestflooringhonolulu.com or call us and we\'ll set you up.</p></div>';H();
+      });
+  });
+})();
+</script>
+</body>
+</html>
