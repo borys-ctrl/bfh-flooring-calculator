@@ -165,7 +165,7 @@ const BFH_CONFIG = {
 
   function notifyHeight(){
     try {
-      var h = document.documentElement.scrollHeight || document.body.scrollHeight;
+      var h = document.body.scrollHeight;
       if (window.parent && window.parent !== window) {
         window.parent.postMessage({ bfhCalcHeight: h }, "*");
       }
