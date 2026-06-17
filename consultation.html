@@ -241,5 +241,22 @@ window.bfhSubmit=function(f){
   setInterval(notifyHeight, 500);
 })();
 </script>
+<!-- GA4 event tracking (added for Google Ads conversion import) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-61D8TB757R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-61D8TB757R");
+  (function(){
+    var fired = false;
+    function fire(){ if(fired) return; fired = true; gtag("event", "consultation_submit", { send_to: "G-61D8TB757R", page_location: document.referrer || location.href }); }
+    function isLead(u){ return /lead-relay|\/api\//i.test(u || ""); }
+    var of = window.fetch;
+    if (of) { window.fetch = function(){ var a = arguments[0]; var u = (a && a.url) ? a.url : String(a || ""); var p = of.apply(this, arguments); if (isLead(u)) { p.then(function(r){ if (r && r.ok) fire(); }).catch(function(){}); } return p; }; }
+    var ox = window.XMLHttpRequest;
+    if (ox) { var oo = ox.prototype.open, os = ox.prototype.send; ox.prototype.open = function(m,u){ this.__u = u; return oo.apply(this, arguments); }; ox.prototype.send = function(){ var x = this; this.addEventListener("load", function(){ if (isLead(x.__u) && x.status >= 200 && x.status < 300) fire(); }); return os.apply(this, arguments); }; }
+  })();
+</script>
 </body>
 </html>
