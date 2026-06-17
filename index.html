@@ -285,5 +285,27 @@ const BFH_CONFIG = {
   notifyHeight();
 })();
 </script>
+<!-- GA4 event tracking (added for Google Ads conversion import) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-61D8TB757R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-61D8TB757R");
+  (function(){
+    var lastFire = 0;
+    document.addEventListener("click", function(e){
+      var btn = e.target && e.target.closest ? e.target.closest("button, [role=button], input[type=submit]") : null;
+      if(!btn) return;
+      var label = (btn.textContent || btn.value || "").toLowerCase();
+      if(label.indexOf("calculate") !== -1){
+        var now = Date.now();
+        if(now - lastFire < 1500) return;
+        lastFire = now;
+        gtag("event", "calculator_complete", { tool: "flooring_cost_calculator", page_location: document.referrer || location.href });
+      }
+    }, true);
+  })();
+</script>
 </body>
 </html>
