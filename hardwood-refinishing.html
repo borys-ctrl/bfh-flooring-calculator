@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BFH Hardwood &amp; Bamboo Refinishing Estimate</title>
+</head>
+<body style="margin:0;">
+<!-- BFH Hardwood, Engineered & Bamboo Refinishing Estimate -->
+<div id="bfh-calc"></div>
+
+<script>
+const BFH_CONFIG = {
+LEAD_WEBHOOK_URL: "https://bfh-lead-relay.vercel.app/api/calculator",
+MIN_JOB: 750,
+FLOOR_TYPES: [
+{ id: "solid", label: "Solid hardwood", factor: 1.0 },
+{ id: "engineered", label: "Engineered hardwood", factor: 1.05 },
+{ id: "bamboo", label: "Bamboo", factor: 1.15 }
+],
+SERVICES: [
+{ id: "refinish", label: "Full sand & refinish", low: 4.0, high: 7.0 },
+{ id: "recoat", label: "Screen & recoat (light refresh)", low: 1.75, high: 3.25 }
+],
+PHONE_DISPLAY: "(808) 210-4807",
+PHONE_TEL: "+18082104807",
+SHOWROOM_URL: "https://bestflooringhonolulu.com/pages/flooring-showroom"
+};
+</script>
+
+<style>
+#bfh-calc { --koa:#5a3e2b; --koa-d:#3d2a1c; --sand:#f6f1e8; --line:#e3d9c8;
+--ink:#241b12; --accent:#b8860b; --radius:12px;
+max-width:560px; margin:0 auto; font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+color:var(--ink); }
+#bfh-calc * { box-sizing:border-box; }
+.bfh-card { background:var(--sand); border:1px solid var(--line); border-radius:var(--radius); padding:28px 24px; }
+.bfh-eyebrow { font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--koa); margin:0 0 6px; font-weight:600; }
+.bfh-title { font-size:24px; line-height:1.2; margin:0 0 18px; color:var(--koa-d); font-weight:700; }
+.bfh-field { margin-bottom:14px; }
+.bfh-label { display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:var(--koa-d); }
+#bfh-calc .bfh-input, #bfh-calc .bfh-select { width:100%; padding:12px 14px; font-size:16px; border:1px solid var(--line); border-radius:var(--radius); background:#fff; color:var(--ink); }
+.bfh-input:focus, .bfh-select:focus { outline:2px solid var(--accent); outline-offset:1px; }
+.bfh-row { display:flex; gap:10px; }
+.bfh-row .bfh-field { flex:1; }
+.bfh-check { display:flex; align-items:center; gap:10px; font-size:15px; margin:4px 0 18px; cursor:pointer; }
+.bfh-check input { width:20px; height:20px; accent-color:var(--koa); }
+.bfh-btn { width:100%; padding:14px; font-size:16px; font-weight:700; border:0; border-radius:var(--radius); background:var(--koa); color:#fff; cursor:pointer; }
+.bfh-btn:hover { background:var(--koa-d); }
+.bfh-btn:disabled { opacity:.6; cursor:default; }
+.bfh-btn-alt { background:#fff; color:var(--koa); border:2px solid var(--koa); margin-bottom:10px; }
+.bfh-btn-alt:hover { background:#fff; color:var(--koa-d); border-color:var(--koa-d); }
+.bfh-note { font-size:12px; color:#6b5b48; margin-top:10px; line-height:1.45; }
+.bfh-err { color:#a33; font-size:13px; margin-top:8px; display:none; }
+.bfh-ok { color:#1a7f37; font-size:14px; font-weight:600; background:#eafaf0; border:1px solid #b7e4c7; border-radius:var(--radius); padding:14px; margin-top:14px; line-height:1.5; }
+.bfh-range { background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:18px; text-align:center; margin-bottom:16px; }
+.bfh-range-num { font-size:30px; font-weight:800; color:var(--koa-d); letter-spacing:-.01em; }
+.bfh-range-sub { font-size:13px; color:#6b5b48; margin-top:4px; }
+.bfh-bar { height:10px; border-radius:6px; margin:14px 0 4px; background:linear-gradient(90deg,#d9c7a8,var(--koa)); }
+.bfh-cta { display:block; text-align:center; text-decoration:none; }
+.bfh-back { background:none; border:0; color:var(--koa); font-size:13px; text-decoration:underline; cursor:pointer; margin-top:12px; display:block; width:100%; }
+.bfh-hidden { display:none; }
+@media (max-width:768px){
+.bfh-row { flex-direction:column; gap:0; }
+.bfh-card { padding:22px 18px; }
+.bfh-input, .bfh-select { font-size:16px; }
+}
+</style>
+
+<script>
+(function(){
+const C = BFH_CONFIG;
+const root = document.getElementById("bfh-calc");
+const floorOpts = C.FLOOR_TYPES.map(f => `<option value="${f.id}">${f.label}</option>`).join("");
+const svcOpts = C.SERVICES.map(s => `<option value="${s.id}">${s.label}</option>`).join("");
+root.innerHTML = `
+<div class="bfh-card">
+<div id="bfh-step1">
+<p class="bfh-eyebrow">Best Flooring Honolulu</p>
+<h3 class="bfh-title">What will refinishing your floor cost?</h3>
+<div class="bfh-field">
+<label class="bfh-label" for="bfh-sqft">Floor area (square feet)</label>
+<input class="bfh-input" id="bfh-sqft" type="number" inputmode="numeric" min="1" placeholder="e.g. 600">
+</div>
+<div class="bfh-field">
+<label class="bfh-label" for="bfh-floor">Floor type</label>
+<select class="bfh-select" id="bfh-floor">${floorOpts}</select>
+</div>
+<div class="bfh-field">
+<label class="bfh-label" for="bfh-service">Service</label>
+<select class="bfh-select" id="bfh-service">${svcOpts}</select>
+</div>
+<button class="bfh-btn" id="bfh-calc-btn">Calculate my estimate</button>
+<p class="bfh-err" id="bfh-err1">Enter your floor area in square feet.</p>
+<p class="bfh-note">Ballpark for sand &amp; refinish on Oahu, including labor and finish. Board replacement, water or pet damage, and heavy repairs are quoted after a free assessment.</p>
+</div>
+<div id="bfh-step2" class="bfh-hidden">
+<p class="bfh-eyebrow">Almost there</p>
+<h3 class="bfh-title">Where should we send your estimate?</h3>
+<div class="bfh-field">
+<label class="bfh-label" for="bfh-name">Name</label>
+<input class="bfh-input" id="bfh-name" type="text" autocomplete="name" placeholder="First and last name">
+</div>
+<div class="bfh-field">
+<label class="bfh-label" for="bfh-customer-type">I am a&hellip;</label>
+<select class="bfh-select" id="bfh-customer-type">
+<option value="homeowner">Homeowner</option>
+<option value="contractor">Contractor / Trade pro</option>
+</select>
+</div>
+<div class="bfh-field bfh-hidden" id="bfh-company-field">
+<label class="bfh-label" for="bfh-company">Company name</label>
+<input class="bfh-input" id="bfh-company" type="text" autocomplete="organization" placeholder="Your company">
+</div>
+<div class="bfh-row">
+<div class="bfh-field">
+<label class="bfh-label" for="bfh-email">Email</label>
+<input class="bfh-input" id="bfh-email" type="email" autocomplete="email" placeholder="you@example.com">
+</div>
+<div class="bfh-field">
+<label class="bfh-label" for="bfh-phone">Phone</label>
+<input class="bfh-input" id="bfh-phone" type="tel" autocomplete="tel" placeholder="(808) 555-0123">
+</div>
+</div>
+<button class="bfh-btn" id="bfh-show-btn">See my estimate</button>
+<p class="bfh-err" id="bfh-err2">Enter your name, phone, and a valid email (and, for contractors, your company name).</p>
+<button class="bfh-back" id="bfh-back1">&larr; Change project details</button>
+<p class="bfh-note">We'll email a copy of your estimate. No spam — local Oahu business.</p>
+</div>
+<div id="bfh-step3" class="bfh-hidden">
+<p class="bfh-eyebrow">Your estimate</p>
+<h3 class="bfh-title" id="bfh-result-title"></h3>
+<div class="bfh-range">
+<div class="bfh-range-num" id="bfh-range-num"></div>
+<div class="bfh-bar"></div>
+<div class="bfh-range-sub" id="bfh-range-sub"></div>
+</div>
+<button class="bfh-btn bfh-btn-alt" id="bfh-book-cta">Book my free in-home assessment &rarr;</button>
+<a class="bfh-btn bfh-cta" href="tel:${C.PHONE_TEL}" style="margin-bottom:10px;">Call ${C.PHONE_DISPLAY} for exact pricing</a>
+<a class="bfh-btn bfh-cta" href="${C.SHOWROOM_URL}" style="background:#fff;color:var(--koa);border:1px solid var(--koa);">Visit our showroom</a>
+<p class="bfh-note">Your estimate is a ballpark. Final price depends on wood species, floor condition, number of coats, stain changes, and any repairs found at the on-site assessment.</p>
+<button class="bfh-back" id="bfh-back2">&larr; Start over</button>
+</div>
+<div id="bfh-step4" class="bfh-hidden">
+<p class="bfh-eyebrow">Optional — get an exact price</p>
+<h3 class="bfh-title">Book your free in-home assessment</h3>
+<p class="bfh-note" style="margin-top:-8px;margin-bottom:16px;">Tell us where and when. We assess your floors free anywhere on Oahu and give you an exact quote — no guesswork. This is a request, not a confirmed appointment; we'll text you back to confirm a time.</p>
+<div class="bfh-field">
+<label class="bfh-label" for="bfh-address">Project address</label>
+<input class="bfh-input" id="bfh-address" type="text" autocomplete="street-address" placeholder="123 Aloha St, Honolulu, HI 96815">
+<p class="bfh-note" style="margin-top:6px;">We currently service Oahu only.</p>
+</div>
+<div class="bfh-row">
+<div class="bfh-field">
+<label class="bfh-label" for="bfh-date">Preferred date (optional)</label>
+<input class="bfh-input" id="bfh-date" type="date">
+</div>
+<div class="bfh-field">
+<label class="bfh-label" for="bfh-time">Preferred time (optional)</label>
+<input class="bfh-input" id="bfh-time" type="time">
+</div>
+</div>
+<button class="bfh-btn" id="bfh-book-btn">Request my free assessment</button>
+<p class="bfh-err" id="bfh-err4">Please enter your project address.</p>
+<div class="bfh-ok bfh-hidden" id="bfh-thanks">Thank you! Your assessment request is in — our team will text you back to confirm a time. Aloha!</div>
+<button class="bfh-back" id="bfh-back3">&larr; Back to my estimate</button>
+</div>
+</div>`;
+const $ = id => document.getElementById(id);
+let est = null;
+
+function notifyHeight(){
+try {
+var h = document.body.scrollHeight;
+if (window.parent && window.parent !== window) {
+window.parent.postMessage({ bfhCalcHeight: h }, "*");
+}
+} catch(e) {}
+}
+
+function show(step){
+["bfh-step1","bfh-step2","bfh-step3","bfh-step4"].forEach((s,i)=>
+$(s).classList.toggle("bfh-hidden", i !== step-1));
+notifyHeight();
+try {
+const c = $("bfh-step"+step);
+if (c && c.scrollIntoView) c.scrollIntoView({behavior:"smooth", block:"center"});
+} catch(e) {}
+}
+
+function postLead(extra){
+if (!C.LEAD_WEBHOOK_URL || !est) return;
+const customerType = $("bfh-customer-type") ? $("bfh-customer-type").value : "homeowner";
+const company = $("bfh-company") ? $("bfh-company").value.trim() : "";
+const emailVal = $("bfh-email").value.trim();
+const phoneVal = $("bfh-phone").value.trim();
+const body = {
+name: $("bfh-name").value.trim(),
+email: emailVal,
+phone: phoneVal,
+company: company,
+customerType: customerType,
+address: $("bfh-address").value.trim(),
+sqft: String(est.sqft),
+floorType: est.floorType,
+service: est.service,
+estimateLow: String(est.low),
+estimateHigh: String(est.high),
+source: "BFH hardwood refinishing",
+ts: new Date().toISOString()
+};
+if (extra) { for (const k in extra) body[k] = extra[k]; }
+try {
+fetch(C.LEAD_WEBHOOK_URL, {
+method: "POST",
+mode: 'cors',
+headers: { "Content-Type": "application/x-www-form-urlencoded" },
+body: new URLSearchParams(body).toString()
+});
+} catch(e) {}
+}
+
+$("bfh-calc-btn").addEventListener("click", () => {
+const sqft = parseFloat($("bfh-sqft").value);
+if (!sqft || sqft <= 0) { $("bfh-err1").style.display = "block"; return; }
+$("bfh-err1").style.display = "none";
+const floor = C.FLOOR_TYPES.find(f => f.id === $("bfh-floor").value);
+const svc = C.SERVICES.find(s => s.id === $("bfh-service").value);
+let low = sqft * svc.low * floor.factor;
+let high = sqft * svc.high * floor.factor;
+if (low < C.MIN_JOB) low = C.MIN_JOB;
+if (high < C.MIN_JOB) high = C.MIN_JOB;
+est = { sqft, floorType: floor.label, service: svc.label, serviceId: svc.id,
+low: Math.round(low/50)*50, high: Math.round(high/50)*50 };
+show(2);
+});
+document.addEventListener("change", (e) => {
+if (e.target && e.target.id === "bfh-customer-type") {
+const isContractor = e.target.value === "contractor";
+$("bfh-company-field").classList.toggle("bfh-hidden", !isContractor);
+notifyHeight();
+}
+});
+
+$("bfh-show-btn").addEventListener("click", () => {
+const name = $("bfh-name").value.trim();
+const email = $("bfh-email").value.trim();
+const isContractor = $("bfh-customer-type").value === "contractor";
+const company = $("bfh-company").value.trim();
+const phone = $("bfh-phone").value.trim();
+const phoneOk = phone.length > 0;
+const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const companyOk = !isContractor || company.length > 0;
+if (!name || !emailOk || !phoneOk || !companyOk) { $("bfh-err2").style.display = "block"; return; }
+$("bfh-err2").style.display = "none";
+$("bfh-show-btn").disabled = true;
+postLead({ source: "BFH hardwood refinishing" });
+const fmt = n => "$" + n.toLocaleString("en-US");
+$("bfh-result-title").textContent =
+`${est.sqft.toLocaleString()} sq ft of ${est.floorType}`;
+$("bfh-range-num").textContent = `${fmt(est.low)} – ${fmt(est.high)}`;
+$("bfh-range-sub").textContent = est.serviceId === "recoat"
+? "Screen & recoat (light refresh), Oahu"
+: "Sand & refinish, incl. labor & finish, Oahu";
+$("bfh-show-btn").disabled = false;
+show(3);
+});
+
+$("bfh-book-cta").addEventListener("click", () => show(4));
+$("bfh-back3").addEventListener("click", () => show(3));
+
+$("bfh-book-btn").addEventListener("click", () => {
+const address = $("bfh-address").value.trim();
+if (!address) { $("bfh-err4").style.display = "block"; return; }
+$("bfh-err4").style.display = "none";
+$("bfh-book-btn").disabled = true;
+postLead({ source: "BFH refinishing - assessment requested" });
+$("bfh-thanks").classList.remove("bfh-hidden");
+$("bfh-book-btn").textContent = "Request sent \u2713";
+["bfh-address","bfh-date","bfh-time"].forEach(f => { const el = $(f); if (el) el.disabled = true; });
+notifyHeight();
+});
+
+$("bfh-back1").addEventListener("click", () => show(1));
+$("bfh-back2").addEventListener("click", () => { est = null; show(1); });
+
+window.addEventListener("load", notifyHeight);
+window.addEventListener("resize", notifyHeight);
+notifyHeight();
+})();
+</script>
+<!-- GA4 event tracking (added for Google Ads conversion import) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-61D8TB757R"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("js", new Date());
+gtag("config", "G-61D8TB757R");
+(function(){
+var lastFire = 0;
+document.addEventListener("click", function(e){
+var btn = e.target && e.target.closest ? e.target.closest("button, [role=button], input[type=submit]") : null;
+if(!btn) return;
+var label = (btn.textContent || btn.value || "").toLowerCase();
+if(label.indexOf("calculate") !== -1){
+var now = Date.now();
+if(now - lastFire < 1500) return;
+lastFire = now;
+gtag("event", "refinishing_estimate", { tool: "hardwood_refinishing_calculator", page_location: document.referrer || location.href });
+}
+}, true);
+})();
+</script>
+</body>
+</html>
