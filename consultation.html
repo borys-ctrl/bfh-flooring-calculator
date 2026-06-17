@@ -260,3 +260,5 @@ window.bfhSubmit=function(f){
 </script>
 </body>
 </html>
+
+<script>(function(){function notify(){if(window.parent){window.parent.postMessage({bfhCalcSubmit:'consultation'},'*');}}function isLead(u){return /lead-relay|\/api\//i.test(u||'');}var of=window.fetch;if(of){window.fetch=function(){var a=arguments[0];var u=(a&&a.url)?a.url:String(a||'');var p=of.apply(this,arguments);if(isLead(u)){p.then(function(r){if(r&&r.ok)notify();}).catch(function(){});}return p;};}})();</script></script>
