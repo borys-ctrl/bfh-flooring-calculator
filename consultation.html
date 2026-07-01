@@ -134,7 +134,7 @@ window.bfhSubmit=function(f){
       '<p class="wic-sub">So we can follow up after your visit.</p>'+
       '<div class="wic-field"><label>First name</label><input class="wic-input" id="i_first" autocomplete="given-name"></div>'+
       '<div class="wic-field"><label>Phone number</label><input class="wic-input" id="i_phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(808) 555-0123"></div>'+
-      '<div class="wic-field"><label>Email <span style="color:#999;font-weight:400">(optional)</span></label><input class="wic-input" id="i_email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com"></div>'+
+      '<div class="wic-field"><label>Email <span style="color:#999;font-weight:400"></span></label><input class="wic-input" id="i_email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com"></div>'+
       '<button class="wic-btn" id="b_next1">Continue &rarr;</button>';
     G('i_first').value=data.first||'';G('i_phone').value=data.phone||'';G('i_email').value=data.email||'';
     G('b_next1').onclick=function(){
@@ -142,6 +142,7 @@ window.bfhSubmit=function(f){
       data.phone=G('i_phone').value.trim();
       data.email=G('i_email').value.trim();
       if(!data.first&&!data.phone){alert('Please add your name or phone so we can reach you.');return;}
+      if(!data.email||!/^\S+@\S+\.\S+$/.test(data.email)){alert('Please add your email so we can follow up after your visit.');return;}
       save(1);
       stage2();
     };
