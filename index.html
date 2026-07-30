@@ -251,6 +251,7 @@ const BFH_CONFIG = {
     $("bfh-err2").style.display = "none";
     $("bfh-show-btn").disabled = true;
     postLead({ source: "BFH flooring calculator" });
+    gtag("event", "generate_lead", { event_category: "form", event_label: "flooring_calculator", tool: "flooring_cost_calculator", page_location: document.referrer || location.href });
     const fmt = n => "$" + n.toLocaleString("en-US");
     $("bfh-result-title").textContent =
       `${est.sqft.toLocaleString()} sq ft of ${est.floorType}`;
@@ -271,6 +272,7 @@ const BFH_CONFIG = {
     $("bfh-err4").style.display = "none";
     $("bfh-book-btn").disabled = true;
     postLead({ source: "BFH calculator - measurement requested" });
+    gtag("event", "generate_lead", { event_category: "form", event_label: "measurement_request", tool: "flooring_cost_calculator", page_location: document.referrer || location.href });
     $("bfh-thanks").classList.remove("bfh-hidden");
     $("bfh-book-btn").textContent = "Request sent \u2713";
     ["bfh-address","bfh-date","bfh-time"].forEach(f => { const el = $(f); if (el) el.disabled = true; });
