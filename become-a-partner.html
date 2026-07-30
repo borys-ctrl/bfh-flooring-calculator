@@ -101,7 +101,7 @@
   gtag("config", "G-61D8TB757R");
   (function(){
     var fired = false;
-    function fire(){ if(fired) return; fired = true; gtag("event", "partner_submit", { send_to: "G-61D8TB757R", page_location: document.referrer || location.href }); }
+    function fire(){ if(fired) return; fired = true; gtag("event", "partner_submit", { send_to: "G-61D8TB757R", page_location: document.referrer || location.href }); gtag("event", "generate_lead", { event_category: "form", event_label: "partner_application", tool: "become_a_partner", page_location: document.referrer || location.href }); }
     function isLead(u){ return /lead-relay|\/api\//i.test(u || ""); }
     var of = window.fetch;
     if (of) { window.fetch = function(){ var a = arguments[0]; var u = (a && a.url) ? a.url : String(a || ""); var p = of.apply(this, arguments); if (isLead(u)) { p.then(function(r){ if (r && r.ok) fire(); }).catch(function(){}); } return p; }; }

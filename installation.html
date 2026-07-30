@@ -221,6 +221,7 @@ window.bfhSubmit=function(f){
      f.dataset.sent='1';
      msg.style.display='block'; msg.style.color='#137333';
      msg.innerHTML='✅ Thank you! Your request was sent. We\'ll be in touch soon.';
+     gtag("event", "generate_lead", { event_category: "form", event_label: "installation_quote", tool: "installation_form", page_location: document.referrer || location.href });
      f.querySelectorAll('input,textarea').forEach(function(el){el.disabled=true;});
      btn.style.display='none';
    })
@@ -243,6 +244,14 @@ window.bfhSubmit=function(f){
   if(window.MutationObserver){new MutationObserver(notifyHeight).observe(document.body,{childList:true,subtree:true,attributes:true});}
   setInterval(notifyHeight,500);
 })();
+</script>
+<!-- GA4 event tracking (added for Google Ads conversion import) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-61D8TB757R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-61D8TB757R");
 </script>
 </body>
 </html>

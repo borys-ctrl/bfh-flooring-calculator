@@ -150,10 +150,18 @@
     var s=window.__calcSnap||{};
     var message='[Reseller Calculator] Island: '+island+(company?' | Company: '+company:'')+' | Est. extra margin/yr: '+money(s.perYear||0)+' (job '+(s.sf||0)+'sf x '+(s.jobs||0)+'/mo, current cost $'+(s.currentCost||0).toFixed(2)+'/sf)';
     fetch(RELAY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name,email:email,phone:phone,contactType:'Reseller Calculator',company:company,island:island,message:message})})
-      .then(function(){card.innerHTML='<div class="wic-ok"><h2>You\'re all set \u2713</h2><p>Thanks, '+name.split(' ')[0]+'! We\'ll send your contractor price list and free Nroro sample bundle within 1 business day.</p></div>';H();})
+      .then(function(){card.innerHTML='<div class="wic-ok"><h2>You\'re all set \u2713</h2><p>Thanks, '+name.split(' ')[0]+'! We\'ll send your contractor price list and free Nroro sample bundle within 1 business day.</p></div>';H();gtag("event","generate_lead",{event_category:"form",event_label:"reseller_calculator",tool:"reseller_calculator",page_location:document.referrer||location.href});})
       .catch(function(){card.innerHTML='<div class="wic-ok"><h2>Almost there</h2><p>We couldn\'t reach the server. Please email borys@bestflooringhonolulu.com or call us and we\'ll set you up.</p></div>';H();});
   });
 })();
+</script>
+<!-- GA4 event tracking (added for Google Ads conversion import) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-61D8TB757R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-61D8TB757R");
 </script>
 </body>
 </html>
