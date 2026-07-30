@@ -307,6 +307,7 @@ var now = Date.now();
 if(now - lastFire < 1500) return;
 lastFire = now;
 gtag("event", "refinishing_estimate", { tool: "hardwood_refinishing_calculator", page_location: document.referrer || location.href });
+  gtag("event", "generate_lead", { event_category: "calculator", event_label: "hardwood_refinishing", tool: "hardwood_refinishing_calculator", page_location: document.referrer || location.href });
 }
 }, true);
 })();
